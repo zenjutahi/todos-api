@@ -7,7 +7,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -40,8 +40,6 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -50,6 +48,9 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+  
+  # add requestspechelper
+  config.include RequestSpecHelper, type: :request
   
   # add `FactoryBot` methods
   config.include FactoryBot::Syntax::Methods
