@@ -4,6 +4,7 @@ module ExceptionHandler
   
   # Define custom error subclasses - rescue catches `StandardErrors`
   class AuthenticationError < StandardError; end
+  class ExpiredSignature < StandardError; end
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
   
@@ -18,6 +19,8 @@ module ExceptionHandler
       json_response({ message: e.message }, :not_found)
     end
   end
+  
+  private
   
   # JSON response with message; Status code 422 - unprocessable entity
   def four_twenty_two(e)
